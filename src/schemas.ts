@@ -43,6 +43,12 @@ const dateSchema = zod.string()
     .transform(str => new Date(str))
     .refine(date => !isNaN(date.getTime()), { error: "Invalid date format" });
 
+
+/**
+ * Schema definition for a raw schedule object.
+ * 
+ * This schema validates the structure and types of the raw schedule data.
+ */
 export const rawScheduleSchema = zod.object({
     comment: zod.string().optional(),
 
