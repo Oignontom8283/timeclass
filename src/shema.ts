@@ -51,15 +51,9 @@ export const rawSheduleShema = zod.object({
     }),
     website: zod.string().url().optional(),
 
-    scheduleStart: zod.object({
-        time: zod.string(),
-        label: zod.string()
-    }),
+    scheduleStart:scheduleTimeShema,
     schedule: zod.array(
-        zod.object({
-            time: zod.string(),
-            label: zod.string()
-        })
+        scheduleTimeShema
     )
 })
 
