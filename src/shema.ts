@@ -30,6 +30,19 @@ const scheduleTimeShema = zod.object({
     label: zod.string()
 });
 
+/**
+ * A Zod schema for validating and transforming string inputs into Date objects.
+ * 
+ * @example
+ * const validDate = dateShema.parse("2023-01-01"); // Returns a valid Date object.
+ * const invalidDate = dateShema.parse("invalid-date"); // Throws a validation error.
+ * 
+ * @throws {ZodError} If the input string cannot be transformed into a valid `Date` object.
+ */
+const dateSchema = zod.string()
+    .transform(str => new Date(str))
+    .refine(date => !isNaN(date.getTime()), { error: "Invalid date format" });
+
 export const rawSheduleShema = zod.object({
     comment: zod.string().optional(),
 
