@@ -15,12 +15,12 @@ import zod from 'zod';
  *   label: "Afternoon Meeting"
  * };
  * 
- * const parsedData = scheduleTimeShema.parse(validData);
+ * const parsedData = scheduleTimeSchema.parse(validData);
  * console.log(parsedData.time); // Outputs a Date object with today's date at 14:30
  * console.log(parsedData.label); // Outputs "Afternoon Meeting"
  * ```
  */
-const scheduleTimeShema = zod.object({
+const scheduleTimeSchema = zod.object({
     time: zod.string().transform(str => {
         const [hours, minutes] = str.split(':').map(Number); // Parses "HH:MM" format
         const now = new Date();
@@ -34,8 +34,8 @@ const scheduleTimeShema = zod.object({
  * A Zod schema for validating and transforming string inputs into Date objects.
  * 
  * @example
- * const validDate = dateShema.parse("2023-01-01"); // Returns a valid Date object.
- * const invalidDate = dateShema.parse("invalid-date"); // Throws a validation error.
+ * const validDate = dateSchema.parse("2023-01-01"); // Returns a valid Date object.
+ * const invalidDate = dateSchema.parse("invalid-date"); // Throws a validation error.
  * 
  * @throws {ZodError} If the input string cannot be transformed into a valid `Date` object.
  */
@@ -43,7 +43,7 @@ const dateSchema = zod.string()
     .transform(str => new Date(str))
     .refine(date => !isNaN(date.getTime()), { error: "Invalid date format" });
 
-export const rawSheduleShema = zod.object({
+export const rawScheduleSchema = zod.object({
     comment: zod.string().optional(),
 
     name: zod.object({
@@ -64,8 +64,8 @@ export const rawSheduleShema = zod.object({
     }),
     website: zod.string().url().optional(),
 
-    scheduleStart:scheduleTimeShema,
+    scheduleStart:scheduleTimeSchema,
     schedule: zod.array(
-        scheduleTimeShema
+        scheduleTimeSchema
     )
 });
