@@ -62,12 +62,8 @@ export const rawScheduleSchema = zod.object({
         postalCode: zod.string(),
         country: zod.string()
     }),
-    createdAt: zod.string().refine((date) => !isNaN(Date.parse(date)), {
-        message: "Invalid date format"
-    }),
-    updatedAt: zod.string().refine((date) => !isNaN(Date.parse(date)), {
-        message: "Invalid date format"
-    }),
+    createdAt: dateSchema.optional(),
+    updatedAt: dateSchema,
     website: zod.string().url().optional(),
 
     scheduleStart:scheduleTimeSchema,
