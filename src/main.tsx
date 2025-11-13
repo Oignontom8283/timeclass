@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
+import School from './pages/School'
+import Timestamp from './pages/Timestamp'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -11,6 +13,8 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
+        <Route path='school/:id' element={<School />} />
+        <Route path='timestamp/:id' element={<Timestamp />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
