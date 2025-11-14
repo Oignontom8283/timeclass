@@ -71,3 +71,15 @@ export const rawScheduleSchema = zod.object({
         scheduleTimeSchema
     )
 });
+
+export type RawScheduleType = zod.infer<typeof rawScheduleSchema>;
+
+
+/**
+ * Schema definition for a schedule object (add id field to raw schedule object).
+ */
+export const scheduleSchema = rawScheduleSchema.extend({
+    id: zod.string()
+});
+
+export type ScheduleType = zod.infer<typeof scheduleSchema>;
