@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function Layout() {
 
   const data = useData();
 
@@ -13,9 +13,15 @@ export default function Layout({ children }: { children: ReactNode }) {
   }
   else {
     return (
-      <main className="flex-1 p-4 md:p-8">
-        {children}
-      </main>
+      <div className="min-h-screen flex flex-col bg-base-100">
+        <header className="navbar bg-primary text-primary-content shadow-lg">
+
+        </header>
+
+        <main className="flex-1 p-4 md:p-8">
+          <Outlet />
+        </main>
+      </div>
     );
   };
 };
