@@ -13,14 +13,16 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <DataProvider>
       <BrowserRouter>
-        <Layout>
-          <Routes>
+        <Routes>
+
+          <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
             <Route path='school/:id' element={<School />} />
-            <Route path='timestamp/:id' element={<Timestamp />} />
-          </Routes>
-        </Layout>
+            <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route path='school/:schoolId/timestamp/:timestampId' element={<Timestamp />} />
+          
+        </Routes>
       </BrowserRouter>
     </DataProvider>
   </StrictMode>,
