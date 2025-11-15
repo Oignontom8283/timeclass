@@ -45,6 +45,19 @@ const dateSchema = zod.string()
 
 
 /**
+ * Schema definition for an address object.
+ */
+export const addressSchema = zod.object({
+    street: zod.string(),
+    city: zod.string(),
+    postalCode: zod.string(),
+    country: zod.string()
+});
+
+export type AddressSchemaType = zod.infer<typeof addressSchema>;
+
+
+/**
  * Schema definition for a raw schedule object.
  * 
  * This schema validates the structure and types of the raw schedule data.
@@ -56,12 +69,7 @@ export const rawScheduleSchema = zod.object({
         original: zod.string(),
         en: zod.string().optional()
     }),
-    address: zod.object({
-        street: zod.string(),
-        city: zod.string(),
-        postalCode: zod.string(),
-        country: zod.string()
-    }),
+    address: addressSchema,
     createdAt: dateSchema.optional(),
     updatedAt: dateSchema,
     website: zod.string().url().optional(),
