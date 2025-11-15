@@ -12,7 +12,14 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
     );
   }
   else if (data.error) {
-    return <div>Error: {data.error.message}</div>;
+    return (
+      <div className='flex justify-center items-center min-h-screen bg-red-200'>
+        <div className='bg-red-400 border-2 border-red-500 p-4 rounded-2xl'>
+          <h1 className='font-bold text-black text-4xl pb-4'>ERROR :</h1>
+          <p className='text-white'>{data.error.message}</p>
+        </div>
+      </div>
+    );
   }
   else {
     return children;
