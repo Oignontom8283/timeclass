@@ -41,7 +41,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
             return null;
           }
 
-          return { ...validatedData.data, id: schoolId }; // Return data with added id field
+          return { ...validatedData.data, id: schoolId, scheduleAll: [validatedData.data.scheduleStart, ...validatedData.data.schedule] }; // Return data with added id field
         }))).filter(school => school != null);
 
         // Update state with the fetched and validated data
