@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { useData } from "../contexts/DataContext"
 import Error from "../components/Error";
-import Timestamp from "../components/Timestamp";
+import Timestamp from "../components/TimestampElement";
+import ErrorGrow from "../components/ErrorGrow";
 
 export default function School() {
   
@@ -13,11 +14,7 @@ export default function School() {
 
   if (!school) { // If school not found, show error
     return (
-      <div className="flex justify-center items-center min-h-0 grow bg-red-50">
-        <Error title="School Not Found">
-          <Link to="/" className='text-blue-500 hover:text-blue-600 underline'>Return to Home</Link>
-        </Error>
-      </div>
+      <ErrorGrow title="School not found" />
     )
   }
   
