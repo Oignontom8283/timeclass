@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useData } from "../contexts/DataContext"
 import Error from "../components/Error";
+import Timestamp from "../components/Timestamp";
 
 export default function School() {
   
@@ -28,9 +29,14 @@ export default function School() {
 
       <div className="h-0.5 bg-gray-200 w-[50%]"/>
 
-      <div className="p-8">
-        <pre>{JSON.stringify(data.schools, null, 2)}</pre>
-      </div>
+      <ul className="p-8">
+        {school.schedule.map((item, index) => (
+          <li key={index}>
+            {/* Date de test */}
+            <Timestamp timestamp={new Date("2025-11-17T13:47:00.000Z")} />
+          </li>
+        ))}
+      </ul>
 
     </div>
   )
