@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
 import { useData } from "../contexts/DataContext"
-import Error from "../components/Error";
 import Timestamp from "../components/TimestampElement";
 import ErrorGrow from "../components/ErrorGrow";
 
