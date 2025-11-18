@@ -60,6 +60,17 @@ export default function Timestamp() {
           </svg>
         </Link>
       )}
+
+      {fullScreenMode && (
+        <button
+          onClick={() => setFullScreenMode(false)}
+          className="fixed top-4 left-4 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer"
+        >
+          ✕
+        </button>
+      )}
+
+
     </div>
   )
 }
