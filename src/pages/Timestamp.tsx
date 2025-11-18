@@ -53,6 +53,7 @@ export default function Timestamp() {
         <TimestampElement timestamp={time.time} />
       </div>
 
+      {/* Base commands buttons */}
       <div className="fixed top-4 left-4 flex flex-rowjustify-center items-center gap-1">
 
         {!fullScreenMode ? ( // Fullscreen button only in non-fullscreen mode
@@ -78,6 +79,16 @@ export default function Timestamp() {
             </svg>
           </Link>
         )}
+      </div>
+
+      {/* tools */}
+      <div className="fixed top-2 left-1/2 -translate-x-1/2">
+        {/* TODO: create tools here */}
+      </div>
+      
+      {/* text input diplayer */}
+      <div className="fixed top-[37.5%] -translate-y-1/2 left-1/2 -translate-x-1/2"> {/* 37.5% = 3/8 = (1/4 + 1/8) */}
+        {/* TODO: Text input here */}
       </div>
 
     </div>
