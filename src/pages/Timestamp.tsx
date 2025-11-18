@@ -2,16 +2,34 @@ import { useParams } from "react-router-dom";
 import ErrorGrow from "../components/ErrorGrow";
 import { useData } from "../contexts/DataContext";
 import TimestampElement from "../components/TimestampElement";
+import { useEffect, useState } from "react";
 
 export default function Timestamp() {
 
-  const { schoolId, timestampId } = useParams();
+  const [fullScreenMode, setFullScreenMode] = useState(false);
 
-  const data = useData();
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setFullScreenMode(document.fullscreenElement !== null);
+    };
 
-  const school = data.schools.find((school) => school.id === schoolId);
+    document.addEventListener("fullscreenchange", handleFullscreenChange); // Set up event listener
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange); // Clean up event listener
+  }, []);
 
-  if (!school) {
+  useEffect(() => {
+    if (fullScreenMode) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }, [fullScreenMode])
+
+  const { schoolId, timestampId } = useParams(); // Get schoolId and timestampId from route parameters
+  const data = useData(); // Access data from context
+
+  const school = data.schools.find((school) => school.id === schoolId); // Find school by schoolId
+  if (!school) { // If school not found, show error
     return (
       <div className="flex flex-col min-h-screen grow">
         <ErrorGrow title="School not found" />
@@ -19,9 +37,8 @@ export default function Timestamp() {
     )
   }
 
-  const time = school.scheduleAll.find((_, index) => index === Number(timestampId));
-
-  if (!schoolId || !timestampId || !time) {
+  const time = school.scheduleAll.find((_, index) => index === Number(timestampId)); // Find time by timestampId
+  if (!schoolId || !timestampId || !time) { // If parameters are invalid, show error
     return (
       <div className="flex flex-col min-h-screen grow">
         <ErrorGrow title="Invalid URL parameters" />
