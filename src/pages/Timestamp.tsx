@@ -56,7 +56,7 @@ export default function Timestamp() {
       {!fullScreenMode && ( // Fullscreen button only in non-fullscreen mode
         <button
           onClick={() => setFullScreenMode(true)}
-          className="fixed top-5 left-16 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer transition-opacity"
+          className="fixed top-5 left-5 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer transition-opacity"
         >
           ⛶
         </button>
@@ -65,14 +65,14 @@ export default function Timestamp() {
       {fullScreenMode && ( // Close button only in fullscreen mode
         <button
           onClick={() => setFullScreenMode(false)}
-          className="fixed top-4 left-4 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer"
+          className="fixed top-5 left-5 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer"
         >
           ✕
         </button>
       )}
 
       {!fullScreenMode && ( // Back button only in non-fullscreen mode
-        <Link to={`/school/${schoolId}`} className="top-4 left-4 fixed p-4 m-0 text-2xl">
+        <Link to={`/school/${schoolId}`} className="top-4 left-16 fixed p-4 m-0 text-2xl">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
