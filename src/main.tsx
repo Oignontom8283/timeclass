@@ -7,8 +7,8 @@ import NotFound from './pages/NotFound';
 import School from './pages/School';
 import Timestamp from './pages/Timestamp';
 import { DataProvider } from './contexts/DataContext';
-import Layout from './components/Layout';
-import GlobalLayout from './components/GlobalLayout';
+import Layout from './layouts/Layout';
+import GlobalLayout from './layouts/GlobalLayout';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
