@@ -54,16 +54,15 @@ export default function Timestamp() {
       </div>
 
       <div className="fixed top-4 left-4 flex flex-rowjustify-center items-center gap-1">
-        {!fullScreenMode && ( // Fullscreen button only in non-fullscreen mode
+
+        {!fullScreenMode ? ( // Fullscreen button only in non-fullscreen mode
           <button
             onClick={() => setFullScreenMode(true)}
             className="p-4 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer transition-opacity"
           >
             ⛶
           </button>
-        )}
-
-        {fullScreenMode && ( // Close button only in fullscreen mode
+        ) : ( // Close button only in fullscreen mode
           <button
             onClick={() => setFullScreenMode(false)}
             className="p-4 text-2xl focus:outline-nonetext-black/70 opacity-0 hover:opacity-100 cursor-pointer"
