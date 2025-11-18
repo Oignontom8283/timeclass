@@ -70,7 +70,14 @@ export default function Timestamp() {
         </button>
       )}
 
-
+      {!fullScreenMode && (
+        <button
+          onClick={() => setFullScreenMode(true)}
+          className="fixed top-5 left-16 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer transition-opacity"
+        >
+          ⛶
+        </button>
+      )}
     </div>
   )
 }
