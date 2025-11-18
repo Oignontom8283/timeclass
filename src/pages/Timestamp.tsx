@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ErrorGrow from "../components/ErrorGrow";
 import { useData } from "../contexts/DataContext";
 import TimestampElement from "../components/TimestampElement";
@@ -53,31 +53,13 @@ export default function Timestamp() {
         <TimestampElement timestamp={time.time} />
       </div>
 
-      <button
-        onClick={() => {
-          if (document.fullscreenElement) {
-        document.exitFullscreen();
-          } else {
-        document.documentElement.requestFullscreen();
-          }
-        }}
-        className={`fixed top-5 left-5 p-2 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer transition-opacity ${
-          document.fullscreenElement ? "opacity-0 hover:opacity-100" : "opacity-100"
-        }`}
-        aria-label="Fullscreen"
-        onMouseEnter={(e) => {
-          if (document.fullscreenElement) {
-            e.currentTarget.style.opacity = "1";
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (document.fullscreenElement) {
-            e.currentTarget.style.opacity = "0";
-          }
-        }}
-      >
-        {document.fullscreenElement ? "✖" : "⛶"}
-      </button>
+      {!fullScreenMode && (
+        <Link to={`/school/${schoolId}`} className="top-4 left-4 fixed p-4 m-0 text-2xl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </Link>
+      )}
     </div>
   )
 }
