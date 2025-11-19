@@ -21,9 +21,14 @@ export default function School() {
 
   return (
     <div className="flex flex-col items-center min-h-0 grow">
-      <div className="mt-10 mb-10">
+      <div className="my-10 mb-7 flex flex-col items-center gap-2">
         <span className="font-bold text-black text-4xl">{school.name.en || school.name.original}</span>
         <h1 className="sr-only">Schedule for : {school.name.en ? `${school.name.original} — ${school.name.en}` : school.name.original}</h1>
+
+        <div className="flex justify-evenly w-full">
+          {school.website && <Link to={school.website} className="link" target="_blank" rel="noopener noreferrer">Website ↗</Link>}
+          {school.scheduleOrigine && <Link to={school.scheduleOrigine} className="link" target="_blank" rel="noopener noreferrer">Original Schedule ↗</Link>}
+        </div>
       </div>
 
       <div className="h-0.5 bg-gray-200 w-[50%]"/>
