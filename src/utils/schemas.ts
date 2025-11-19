@@ -73,7 +73,7 @@ export const rawScheduleSchema = zod.object({
     createdAt: dateSchema.optional(),
     updatedAt: dateSchema,
     website: zod.string().url().optional(),
-    scheduleOrigine: zod.string().url(),
+    scheduleOrigine: zod.string(),
 
     scheduleStart:scheduleTimeSchema,
     schedule: zod.array(
