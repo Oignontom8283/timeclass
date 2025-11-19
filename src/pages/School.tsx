@@ -22,7 +22,8 @@ export default function School() {
   return (
     <div className="flex flex-col items-center min-h-0 grow">
       <div className="mt-10 mb-10">
-        <h1 className="font-bold text-black text-4xl">{school.name.en || school.name.original}</h1>
+        <span className="font-bold text-black text-4xl">{school.name.en || school.name.original}</span>
+        <h1 className="sr-only">Schedule for : {school.name.en ? `${school.name.original} — ${school.name.en}` : school.name.original}</h1>
       </div>
 
       <div className="h-0.5 bg-gray-200 w-[50%]"/>
