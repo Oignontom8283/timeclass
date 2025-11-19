@@ -84,12 +84,12 @@ export default function Timestamp() {
       </div>
 
       {/* tools */}
-      <div className="fixed top-2 left-1/2 -translate-x-1/2">
+      <div className={"fixed top-2 left-1/2 -translate-x-1/2 " + (fullScreenMode ? "opacity-0" : "opacity-100")}>
         {/* TODO: create tools here */}
       </div>
       
       {/* text input diplayer */}
-      <div className="fixed top-[37.5%] -translate-y-1/2 left-1/2 -translate-x-1/2"> {/* 37.5% = 3/8 = (1/4 + 1/8) */}
+      <div className={"fixed top-[37.5%] -translate-y-1/2 left-1/2 -translate-x-1/2 border-green-400 " + (fullScreenMode ? "border-0" : "border border-dotted")}> {/* 37.5% = 3/8 = (1/4 + 1/8) */}
         {/* TODO: Text input here */}
       </div>
 
