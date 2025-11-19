@@ -19,12 +19,12 @@
     "scheduleStart": {"time": "08:00", "label": "8h"},
     "schedule": [
         {"time": "08:55", "label": "9h"},
-        {"time": "09:50", "label": "10h (récré)"},
+        {"time": "09:50", "label": "10h (récré 15m)"},
         {"time": "11:00", "label": "11h"},
         {"time": "11:55", "label": "12h"},
-        {"time": "12:50", "label": "13h (récré)"},
+        {"time": "12:50", "label": "13h (récré 10m)"},
         {"time": "13:55", "label": "14h"},
-        {"time": "14:50", "label": "15h (récré)"},
+        {"time": "14:50", "label": "15h (récré 15m)"},
         {"time": "16:00", "label": "16h"},
         {"time": "16:55", "label": "17h"}
     ]
