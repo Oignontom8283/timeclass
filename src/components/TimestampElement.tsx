@@ -15,22 +15,22 @@ export default function Timestamp({ timestamp }: TimestampProps) {
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Mettre à jour le temps actuel chaque seconde
+  // Update current time every second
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
 
-    // Nettoyer l'interval quand le composant est démonté
+    // Clean up the interval when the component is unmounted
     return () => clearInterval(interval);
   }, []);
   
-  // Calculer la différence en millisecondes
+  // Calculate time difference
   const timeDifference = timestamp.getTime() - currentTime.getTime();
   const isOverdue = timeDifference < 0;
   const absTimeDifference = Math.abs(timeDifference);
 
-  // Calculer les années, mois, semaines, jours, heures, minutes et secondes
+  // Calculate years, months, weeks, days, hours, minutes, and seconds
   const years = Math.floor(absTimeDifference / (1000 * 60 * 60 * 24 * 365));
   const months = Math.floor((absTimeDifference % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
   const weeks = Math.floor((absTimeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
@@ -39,7 +39,7 @@ export default function Timestamp({ timestamp }: TimestampProps) {
   const minutes = Math.floor((absTimeDifference % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((absTimeDifference % (1000 * 60)) / 1000);
 
-  // Créer un tableau des unités de temps avec leurs valeurs
+  // Create an array of time units with their values
   const timeUnits: TimeUnit[] = [
     { value: years, label: 'years', shortLabel: 'ans' },
     { value: months, label: 'months', shortLabel: 'mois' },
@@ -50,11 +50,10 @@ export default function Timestamp({ timestamp }: TimestampProps) {
     { value: seconds, label: 'seconds', shortLabel: 'sec' }
   ];
 
-  // Filtrer pour n'afficher que les unités nécessaires
-  // On trouve la première unité non-nulle et on affiche à partir de là
+  // Filter units to display only those that are significant
   const firstNonZeroIndex = timeUnits.findIndex(unit => unit.value > 0);
   const displayUnits = firstNonZeroIndex === -1 
-    ? [timeUnits[timeUnits.length - 1]] // Si tout est à 0, afficher seulement les secondes
+    ? [timeUnits[timeUnits.length - 1]] // Show seconds if all units are zero
     : timeUnits.slice(firstNonZeroIndex);
 
   const counter = displayUnits
