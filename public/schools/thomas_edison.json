@@ -11,21 +11,21 @@
         "postalCode": "83510",
         "country": "France"
     },
-    "createdAt": "2023-01-01T00:00:00Z",
-    "updatedAt": "2024-06-15T12:00:00Z",
+    "createdAt": "2025-11-19T00:00:00Z",
+    "updatedAt": "2025-11-19T00:00:00Z",
     "website": "https://www.lycee-lorgues.fr/",
-    "scheduleOrigine": "https://www.lycee-lorgues.fr/...",
+    "scheduleOrigine": "/documents/school_schedules/thomas_edison-2025_2026-a25b9cd3b1d212aaa2d8e45ee3ec4e5d.pdf",
 
     "scheduleStart": {"time": "08:00", "label": "8h"},
     "schedule": [
-        {"time": "09:00", "label": "9h"},
-        {"time": "10:00", "label": "10h"},
+        {"time": "08:55", "label": "9h"},
+        {"time": "09:50", "label": "10h (récré)"},
         {"time": "11:00", "label": "11h"},
-        {"time": "12:00", "label": "12h"},
-        {"time": "13:00", "label": "13h"},
-        {"time": "14:00", "label": "14h"},
-        {"time": "15:00", "label": "15h"},
+        {"time": "11:55", "label": "12h"},
+        {"time": "12:50", "label": "13h (récré)"},
+        {"time": "13:55", "label": "14h"},
+        {"time": "14:50", "label": "15h (récré)"},
         {"time": "16:00", "label": "16h"},
-        {"time": "17:00", "label": "17h"}
+        {"time": "16:55", "label": "17h"}
     ]
 }
