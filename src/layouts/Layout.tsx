@@ -6,7 +6,7 @@ export default function Layout() {
       <header className="w-full h-12 flex items-center justify-center border-b border-gray-300 bg-zinc-50">
         <Link to="/">
           <div className='flex flex-row items-center justify-center gap-2'>
-            <img src="/logo.png" alt="logo" className='h-7 w-7'/>
+            <img src="/assets/logo.png" alt="logo" className='h-7 w-7'/>
             <span className='font-mono text-2xl font-bold'>TimeClass</span>
 
           </div>
