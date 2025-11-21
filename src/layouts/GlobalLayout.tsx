@@ -1,12 +1,6 @@
-import { useEffect } from 'react';
 import { useData } from '../contexts/DataContext';
 
 export default function GlobalLayout({ children }: { children: React.ReactNode }) {
-
-  // Display build info in console
-  useEffect(() => {
-    console.log(`%cVersion: v${__VERSION__}\nBuild Date: ${__BUILD_DATE__}\nRepository: https://github.com/Oignontom8283/timeclass`, 'color: red; font-weight: bold; background: yellow;');
-  }, []);
 
   const data = useData();
 
