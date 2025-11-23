@@ -9,6 +9,7 @@ import Timestamp from './pages/Timestamp';
 import { DataProvider } from './contexts/DataContext';
 import Layout from './layouts/Layout';
 import GlobalLayout from './layouts/GlobalLayout';
+import Test from './pages/Test';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,6 +24,8 @@ createRoot(document.getElementById('root')!).render(
             </Route>
             <Route path="*" element={<NotFound />} />
             <Route path='school/:schoolId/timestamp/:timestampId' element={<Timestamp />} />
+
+            <Route path='test' element={<Test />} />
 
           </Routes>
         </BrowserRouter>
