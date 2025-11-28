@@ -1,5 +1,6 @@
 import Moveable from "react-moveable";
 import TimestampElement from "../components/TimestampElement";
+import { getReactTransform, setReactTransform } from "../utils/parser";
 
 export default function Test() {
   return (
@@ -21,13 +22,23 @@ export default function Test() {
         }}
 
         onScale={e => {
-          e.target.style.transform = e.transform;
-          console.log(e.target.style.transform);
+          // Conserver le ratio de l'élément lors du scale
+          const [scaleX, scaleY] = getReactTransform(e.transform, "scale") || [1, 1];
           
+          // Utiliser la plus grande valeur pour maintenir le ratio
+          const uniformScale = Math.max(scaleX, scaleY);
+          
+          e.target.style.transform = setReactTransform(e.transform, "scale", [uniformScale, uniformScale]);
+
+          console.log("origine:", e.target.style.transform);
+        }}
+
+        onRotate={e => {
+          e.target.style.transform = e.transform;
         }}
 
       />
-      <div className="target w-64 h-64 bg-blue-700">
+      <div className="target w-24 h-24 bg-blue-700">
         {/* <TimestampElement timestamp={new Date("2026-01-01T12:00:00Z")} /> */}
         BONjour
       </div>
