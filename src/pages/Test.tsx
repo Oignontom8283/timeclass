@@ -4,7 +4,7 @@ import { getReactTransform, setReactTransform } from "../utils/parser";
 
 export default function Test() {
   return (
-    <div className="w-screen h-screen bg-red-300">
+    <div className="w-screen h-screen bg-red-300 flex items-center justify-center">
       <Moveable
         target={".target"}
         draggable={true}
@@ -38,9 +38,9 @@ export default function Test() {
         }}
 
       />
-      <div className="target w-24 h-24 bg-blue-700">
-        {/* <TimestampElement timestamp={new Date("2026-01-01T12:00:00Z")} /> */}
-        BONjour
+      <div className="target">
+        <TimestampElement timestamp={new Date("2026-01-01T12:00:00Z")} />
+        {/* BONjour */}
       </div>
     </div>
   );
