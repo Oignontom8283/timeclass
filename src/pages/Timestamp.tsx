@@ -2,30 +2,98 @@ import { Link, useParams } from "react-router-dom";
 import ErrorGrow from "../components/ErrorGrow";
 import { useData } from "../contexts/DataContext";
 import TimestampElement from "../components/TimestampElement";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Moveable from "react-moveable";
+import { getReactTransform, setReactTransform } from "../utils/parser";
+
+type ElementType = "timestamp" | "text";
+
+interface MoveableItem {
+  id: string;
+  type: ElementType;
+  ref: React.RefObject<HTMLDivElement | null>;
+}
 
 export default function Timestamp() {
+  
+  const [inputWidth, setInputWidth] = useState(200);
+
 
   const [textDisplayed, setTextDisplayed] = useState("");
   const [fullScreenMode, setFullScreenMode] = useState(false);
-  const [inputWidth, setInputWidth] = useState(200);
-
+  
   useEffect(() => {
     const handleFullscreenChange = () => {
       setFullScreenMode(document.fullscreenElement !== null);
     };
-
+    
     document.addEventListener("fullscreenchange", handleFullscreenChange); // Set up event listener
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange); // Clean up event listener
   }, []);
 
   useEffect(() => {
     if (fullScreenMode) {
-      document.documentElement.requestFullscreen();
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {
+          setFullScreenMode(false);
+        });
+      }
     } else {
-      document.exitFullscreen();
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {
+          /* ignore if already exited */
+        });
+      }
     }
   }, [fullScreenMode])
+  
+  
+  const [movableItems, setMovableItems] = useState<MoveableItem[]>([]); // State to hold movable elements
+  const [selectedItems, setSelectedItems] = useState<MoveableItem[]>([]); // State to hold selected elements
+  const [oneSelectedItem, setOneSelectedItem] = useState<MoveableItem | null>(null); // State to hold single selected element
+  const [isMultipleSelected, setIsMultipleSelected] = useState<boolean>(false); // State to indicate if multiple elements are selected
+
+  // Update isMultipleSelected whenever selectedItems changes
+  useEffect(() => {
+    setIsMultipleSelected(selectedItems.length > 1);
+    setOneSelectedItem(selectedItems.length === 1 ? selectedItems[0] : null);
+  }, [selectedItems]);
+  
+  const timestampRef = useRef<HTMLDivElement | null>(null);
+  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef}
+  useEffect(() => {
+    setMovableItems(prevItems => prevItems.some(item => item.id === "0")
+      ? prevItems
+      : [...prevItems, timestampItem]);
+  }, [])
+
+  const targets = useMemo(
+    () => movableItems.map(el => el.ref.current).filter(Boolean) as HTMLElement[],
+    [movableItems]
+  );
+
+  const onClickItem = (item: MoveableItem, e:React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    if (!item.ref.current) return;
+
+    // Add or remove from selection based on Shift key
+    if (e.shiftKey) {
+      setSelectedItems(prev => {
+
+        // Check if item is already selected
+        const isAlreadySelected = prev.includes(item);
+
+        // If already selected, remove it; otherwise, add it
+        return isAlreadySelected
+          ? prev.filter(i => i !== item) // Remove from selection
+          : [...prev, item]; // Add to selection
+      });
+    } else {
+      // Single selection
+      setSelectedItems([item]); // Set selectedItems to only the clicked item
+    };
+  }
 
   const { schoolId, timestampId } = useParams(); // Get schoolId and timestampId from route parameters
   const data = useData(); // Access data from context
@@ -49,9 +117,44 @@ export default function Timestamp() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-zinc-50 min-h-screen"> {/* Prend tout l'écran */}
+    <div
+      className="flex flex-col items-center justify-center bg-zinc-50 min-h-screen" // Prend tout l'écran
+      onClick={() => setSelectedItems([])} // Deselect all on background click
+    > 
       
-      <div className="scale-250">
+      <Moveable
+        target={targets}
+        draggable={true}
+        warpable={false}
+        throttleDrag={0}
+        throttleResize={0}
+        edge={true}
+        origin={false}
+        keepRatio={false}
+        rotatable={selectedItems.length === 1}
+        hideDefaultLines={selectedItems.length === 0}
+        hideThrottleDragRotateLine={true}
+        resizable={oneSelectedItem?.type === "text"}
+        scalable={oneSelectedItem?.type === "timestamp"}
+        onDrag={e => e.target.style.transform = e.transform}
+        onScale={e => {
+          const [scaleX, scaleY] = getReactTransform(e.transform, "scale") || [1, 1]; // Get current scale values
+          const uniformScale = Math.max(scaleX, scaleY); // Determine uniform scale
+          e.target.style.transform = setReactTransform(e.transform, "scale", [uniformScale, uniformScale]); // Apply uniform scale
+        }}
+        onRotate={e => e.target.style.transform = e.transform}
+        onDragStart={e => {
+          const item = movableItems.find(el => el.ref.current === e.target); // Find the dragged item
+          if (item && item.ref.current) { // If item found and has a ref
+            if (!selectedItems.includes(item)) { // If item is not already selected
+              setSelectedItems([item]); // Select only the dragged item
+            }
+          }
+        }}
+      />
+
+      {/* Timestamp item */}
+      <div ref={timestampRef} onClick={e => onClickItem(timestampItem, e)} className="scale-250">
         <TimestampElement timestamp={time.time} />
       </div>
 
@@ -59,7 +162,7 @@ export default function Timestamp() {
       <div className="fixed top-4 left-4 flex flex-rowjustify-center items-center gap-1">
 
         {!fullScreenMode ? ( // Fullscreen button only in non-fullscreen mode
-          <button
+          <button // FULLSCREEN BUTTON
             onClick={() => setFullScreenMode(true)}
             className="p-4 text-2xl focus:outline-none text-black hover:text-black/70 cursor-pointer transition-opacity"
             title="Enter fullscreen"
@@ -67,7 +170,7 @@ export default function Timestamp() {
             ⛶
           </button>
         ) : ( // Close button only in fullscreen mode
-          <button
+          <button // EXIT FULLSCREEN BUTTON
             onClick={() => setFullScreenMode(false)}
             className="p-4 text-2xl focus:outline-none text-black/70 opacity-0 hover:opacity-100 cursor-pointer"
             title="Exit fullscreen"
@@ -76,7 +179,7 @@ export default function Timestamp() {
           </button>
         )}
 
-        {!fullScreenMode && ( // Back button only in non-fullscreen mode
+        {!fullScreenMode && ( // BACK BUTTON only in non-fullscreen mode
           <Link to={`/school/${schoolId}`} className="p-4 text-black hover:text-black/70 cursor-pointer transition-opacity" title="Back to schedule">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
