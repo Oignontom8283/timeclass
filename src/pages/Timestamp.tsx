@@ -51,6 +51,7 @@ export default function Timestamp() {
   const [movableItems, setMovableItems] = useState<MoveableItem[]>([]); // State to hold movable elements
   const [selectedItems, setSelectedItems] = useState<MoveableItem[]>([]); // State to hold selected elements
   const [oneSelectedItem, setOneSelectedItem] = useState<MoveableItem | null>(null); // State to hold single selected element
+  // @ts-ignore
   const [isMultipleSelected, setIsMultipleSelected] = useState<boolean>(false); // State to indicate if multiple elements are selected
 
   // Update isMultipleSelected whenever selectedItems changes
