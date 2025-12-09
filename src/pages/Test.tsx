@@ -116,7 +116,7 @@ export default function Test() {
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (
-              <p className="text-gray-800 whitespace-pre-wrap break-words h-full overflow-auto">
+              <p className="text-gray-800 whitespace-pre-wrap h-full overflow-auto">
                 {element.content}
               </p>
             )}
