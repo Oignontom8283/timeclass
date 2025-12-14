@@ -6,11 +6,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Moveable from "react-moveable";
 import { getReactTransform, setReactTransform } from "../utils/parser";
 
-type ElementType = "timestamp" | "text";
+enum ItemType {
+  TIMESTAMP = "timestamp",
+  PARAGRAPHE = "paragraph",
+}
+
+type ItemTypes = `${ItemType}`
 
 interface MoveableItem {
   id: string;
-  type: ElementType;
+  type: ItemTypes;
   ref: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -135,8 +140,8 @@ export default function Timestamp() {
         rotatable={selectedItems.length === 1}
         hideDefaultLines={selectedItems.length === 0}
         hideThrottleDragRotateLine={true}
-        resizable={oneSelectedItem?.type === "text"}
-        scalable={oneSelectedItem?.type === "timestamp"}
+        resizable={oneSelectedItem?.type === ItemType.PARAGRAPHE}
+        scalable={oneSelectedItem?.type === ItemType.TIMESTAMP}
         onDrag={e => e.target.style.transform = e.transform}
         onScale={e => {
           const [scaleX, scaleY] = getReactTransform(e.transform, "scale") || [1, 1]; // Get current scale values
