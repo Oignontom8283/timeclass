@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Moveable from "react-moveable";
 import { getReactTransform, setReactTransform } from "../utils/parser";
 
+
 enum ItemType {
   TIMESTAMP = "timestamp",
   PARAGRAPHE = "paragraph",
@@ -13,11 +14,25 @@ enum ItemType {
 
 type ItemTypes = `${ItemType}`
 
-interface MoveableItem {
-  id: string;
-  type: ItemTypes;
-  ref: React.RefObject<HTMLDivElement | null>;
+/**
+ * Map defining content types for specific item types.
+ * Only include types that require non-null content.
+ */
+type ItemContentMap = {
+  paragraph: HTMLDivElement;
+  // Add here ONLY the types that require a non-null content
+  // exemple: "image": HTMLImageElement;
 }
+
+type MoveableItem = {
+  [K in ItemTypes]: {
+    id: string;
+    type: K;
+    ref: React.RefObject<HTMLDivElement | null>;
+    content: K extends keyof ItemContentMap ? ItemContentMap[K] : null;
+  }
+}[ItemTypes];
+
 
 export default function Timestamp() {
   
@@ -66,7 +81,7 @@ export default function Timestamp() {
   }, [selectedItems]);
   
   const timestampRef = useRef<HTMLDivElement | null>(null);
-  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef}
+  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null }
   useEffect(() => {
     setMovableItems(prevItems => prevItems.some(item => item.id === "0")
       ? prevItems
