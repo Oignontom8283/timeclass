@@ -19,7 +19,7 @@ type ItemTypes = `${ItemType}`
  * Only include types that require non-null content.
  */
 type ItemContentMap = {
-  paragraph: HTMLDivElement;
+  paragraph: string;
   // Add here ONLY the types that require a non-null content
   // exemple: "image": HTMLImageElement;
 }
@@ -30,6 +30,7 @@ type MoveableItem = {
     type: K;
     ref: React.RefObject<HTMLDivElement | null>;
     content: K extends keyof ItemContentMap ? ItemContentMap[K] : null;
+    imuable?: boolean;
   }
 }[ItemTypes];
 
@@ -81,7 +82,7 @@ export default function Timestamp() {
   }, [selectedItems]);
   
   const timestampRef = useRef<HTMLDivElement | null>(null);
-  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null }
+  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null, imuable: true }
   useEffect(() => {
     setMovableItems(prevItems => prevItems.some(item => item.id === "0")
       ? prevItems
