@@ -31,6 +31,13 @@ type MoveableItem = {
     ref: React.RefObject<HTMLDivElement | null>;
     content: K extends keyof ItemContentMap ? ItemContentMap[K] : null;
     imuable?: boolean;
+    y: number;
+    x: number;
+    width: number;
+    height: number;
+    scaleY: number;
+    scaleX: number;
+    rotation: number;
   }
 }[ItemTypes];
 
@@ -81,8 +88,9 @@ export default function Timestamp() {
     setOneSelectedItem(selectedItems.length === 1 ? selectedItems[0] : null);
   }, [selectedItems]);
   
+  
   const timestampRef = useRef<HTMLDivElement | null>(null);
-  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null, imuable: true }
+  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null, imuable: true, x: 0, y: 0, width: 0, height: 0, scaleX: 0, scaleY: 0, rotation: 0 };
   useEffect(() => {
     setMovableItems(prevItems => prevItems.some(item => item.id === "0")
       ? prevItems
@@ -116,6 +124,7 @@ export default function Timestamp() {
       setSelectedItems([item]); // Set selectedItems to only the clicked item
     };
   }
+  
 
   const { schoolId, timestampId } = useParams(); // Get schoolId and timestampId from route parameters
   const data = useData(); // Access data from context
@@ -175,10 +184,6 @@ export default function Timestamp() {
         }}
       />
 
-      {/* Timestamp item */}
-      <div ref={timestampRef} onClick={e => onClickItem(timestampItem, e)} className="scale-250">
-        <TimestampElement timestamp={time.time} />
-      </div>
 
       {/* Base commands buttons */}
       <div className="fixed top-4 left-4 flex flex-rowjustify-center items-center gap-1">
@@ -214,7 +219,16 @@ export default function Timestamp() {
       <div className={"fixed top-2 left-1/2 -translate-x-1/2 " + (fullScreenMode ? "opacity-0" : "opacity-100")}>
         {/* TODO: create tools here */}
       </div>
+
+
+
+      {/* Timestamp item */}
+      <div ref={timestampRef} onClick={e => onClickItem(timestampItem, e)} className="scale-250">
+        <TimestampElement timestamp={time.time} />
+      </div>
       
+      
+
       {/* text input diplayer */}
       <div className={"fixed top-[37.5%] -translate-y-1/2 left-1/2 -translate-x-1/2 " + (fullScreenMode ? "border-0" : "border-dotted border-2 border-zinc-300 rounded-3xl")}> {/* 37.5% = 3/8 = (1/4 + 1/8) */}
         <span className="invisible absolute whitespace-pre text-xl p-4" ref={(span) => {span && setInputWidth(Math.max(span.offsetWidth, 200))}} >
@@ -229,6 +243,7 @@ export default function Timestamp() {
           style={{ width: `${inputWidth}px` }}
         />
       </div>
+
 
     </div>
   )
