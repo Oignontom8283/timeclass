@@ -259,22 +259,6 @@ export default function Timestamp() {
         </div>
       ))}
 
-      {/* text input diplayer */}
-      <div className={"fixed top-[37.5%] -translate-y-1/2 left-1/2 -translate-x-1/2 " + (fullScreenMode ? "border-0" : "border-dotted border-2 border-zinc-300 rounded-3xl")}> {/* 37.5% = 3/8 = (1/4 + 1/8) */}
-        <span className="invisible absolute whitespace-pre text-xl p-4" ref={(span) => {span && setInputWidth(Math.max(span.offsetWidth, 200))}} >
-          {textDisplayed || "Taper votre text ici..."}
-        </span>
-        <input
-          type="text"
-          value={textDisplayed}
-          onChange={e => setTextDisplayed(e.target.value)}
-          className="bg-transparent border-0 outline-0 text-center text-xl p-4 text-black"
-          placeholder={fullScreenMode && textDisplayed.length === 0 ? "" : "Taper votre text ici..."}
-          style={{ width: `${inputWidth}px` }}
-        />
-      </div>
-
-
     </div>
   )
 }
