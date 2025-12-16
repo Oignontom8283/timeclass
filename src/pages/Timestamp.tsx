@@ -5,6 +5,8 @@ import TimestampElement from "../components/TimestampElement";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Moveable from "react-moveable";
 import { getReactTransform, setReactTransform } from "../utils/parser";
+import ParagraphElement from "../components/ParagraphElement";
+import React from "react";
 
 
 enum ItemType {
@@ -30,7 +32,7 @@ type MoveableItem = {
     type: K;
     ref: React.RefObject<HTMLDivElement | null>;
     content: K extends keyof ItemContentMap ? ItemContentMap[K] : null;
-    imuable?: boolean;
+    immutable?: boolean;
     y: number;
     x: number;
     width: number;
@@ -86,11 +88,12 @@ export default function Timestamp() {
   useEffect(() => {
     setIsMultipleSelected(selectedItems.length > 1);
     setOneSelectedItem(selectedItems.length === 1 ? selectedItems[0] : null);
+    console.debug("Selected items:", selectedItems); // Debug log
   }, [selectedItems]);
   
   
   const timestampRef = useRef<HTMLDivElement | null>(null);
-  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null, imuable: true, x: 0, y: 0, width: 0, height: 0, scaleX: 0, scaleY: 0, rotation: 0 };
+  const timestampItem: MoveableItem = { id: "0", type: "timestamp", ref: timestampRef, content: null, immutable: true, x: 0, y: 0, width: 0, height: 0, scaleX: 0, scaleY: 0, rotation: 0 };
   useEffect(() => {
     setMovableItems(prevItems => prevItems.some(item => item.id === "0")
       ? prevItems
@@ -98,8 +101,8 @@ export default function Timestamp() {
   }, [])
 
   const targets = useMemo(
-    () => movableItems.map(el => el.ref.current).filter(Boolean) as HTMLElement[],
-    [movableItems]
+    () => selectedItems.map(el => el.ref.current).filter(Boolean) as HTMLElement[],
+    [selectedItems]
   );
 
   const onClickItem = (item: MoveableItem, e:React.MouseEvent<HTMLDivElement>) => {
@@ -218,6 +221,21 @@ export default function Timestamp() {
       {/* tools */}
       <div className={"fixed top-2 left-1/2 -translate-x-1/2 " + (fullScreenMode ? "opacity-0" : "opacity-100")}>
         {/* TODO: create tools here */}
+        <button onClick={() => movableItems.push({
+          id: crypto.randomUUID(),
+          type: ItemType.PARAGRAPHE,
+          ref: React.createRef<HTMLDivElement>(),
+          content: "Hello world, i am a paragraphe!",
+          y: 0,
+          x: 0,
+          width: 0,
+          height: 0,
+          scaleY: 0,
+          scaleX: 0,
+          rotation: 0
+        })} className="p-2 px-4 bg-black text-white rounded-4xl">
+          Add Paragraphe
+        </button>
       </div>
 
 
@@ -227,7 +245,19 @@ export default function Timestamp() {
         <TimestampElement timestamp={time.time} />
       </div>
       
-      
+      {/* Générate Paragraphe items */}
+      {movableItems.filter(item => item.type === ItemType.PARAGRAPHE && !item.immutable).map(item => (
+        <div ref={item.ref} onClick={e => onClickItem(item, e)} key={item.id} className="absolute">
+          <ParagraphElement
+            value={item.content || ""}
+            onChange={newValue => setMovableItems(prevItem => prevItem.map(i =>
+              i.id === item.id && i.type === ItemType.PARAGRAPHE
+                ? { ...i, content: newValue }
+                : i
+            ))}
+          />
+        </div>
+      ))}
 
       {/* text input diplayer */}
       <div className={"fixed top-[37.5%] -translate-y-1/2 left-1/2 -translate-x-1/2 " + (fullScreenMode ? "border-0" : "border-dotted border-2 border-zinc-300 rounded-3xl")}> {/* 37.5% = 3/8 = (1/4 + 1/8) */}
