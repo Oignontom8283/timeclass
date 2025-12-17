@@ -176,6 +176,11 @@ export default function Timestamp() {
           const uniformScale = Math.max(scaleX, scaleY); // Determine uniform scale
           e.target.style.transform = setReactTransform(e.transform, "scale", [uniformScale, uniformScale]); // Apply uniform scale
         }}
+        onResize={e => {
+          e.target.style.width = `${e.width}px`;
+          e.target.style.height = `${e.height}px`;
+          e.target.style.transform = e.drag.transform;
+        }}
         onRotate={e => e.target.style.transform = e.transform}
         onDragStart={e => {
           const item = movableItems.find(el => el.ref.current === e.target); // Find the dragged item
